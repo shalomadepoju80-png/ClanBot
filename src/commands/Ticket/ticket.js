@@ -144,7 +144,7 @@ description: panelMessage,
 
             const ticketButton = new ActionRowBuilder().addComponents(
                 new ButtonBuilder()
-                    .setCustomId("create_ticket")
+                    .setCustomId("ticket_create")
 .setLabel(buttonLabel)
                     .setStyle(ButtonStyle.Primary)
                     .setEmoji("📩"),
