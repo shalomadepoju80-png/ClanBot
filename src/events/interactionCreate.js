@@ -308,6 +308,27 @@ export default {
           }
         } else if (interaction.isButton()) {
           if (interaction.customId.startsWith('shared_todo_')) {
+            else if (interaction.customId.startsWith('ticket_')) {
+    const button = client.buttons.get(interaction.customId);
+
+    if (button) {
+        try {
+            await button.execute(interaction, client);
+        } catch (error) {
+            await handleInteractionError(
+                interaction,
+                error,
+                withTraceContext({
+                    type: 'button',
+                    customId: interaction.customId,
+                    handler: 'ticket'
+                }, interactionTraceContext)
+            );
+        }
+    } else {
+        logger.warn(`No ticket button handler found: ${interaction.customId}`);
+    }
+}
             const parts = interaction.customId.split('_');
             const buttonType = parts.slice(0, 3).join('_');
             const listId = parts[3];
