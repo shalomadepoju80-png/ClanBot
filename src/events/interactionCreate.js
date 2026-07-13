@@ -306,76 +306,10 @@ export default {
               await interaction.respond([]);
             }
           }
-       } else if (interaction.isButton()) {
+             } else if (interaction.isButton()) {
 
-  if (interaction.customId.startsWith('shared_todo_')) {
-    const parts = interaction.customId.split('_');
-    const buttonType = parts.slice(0, 3).join('_');
-    const listId = parts[3];
-    const button = client.buttons.get(buttonType);
+          if (interaction.customId.startsWith('shared_todo_')) {
 
-    if (button) {
-      try {
-        await button.execute(interaction, client, [listId]);
-      } catch (error) {
-        await handleInteractionError(
-          interaction,
-          error,
-          withTraceContext({
-            type: 'button',
-            customId: interaction.customId,
-            handler: 'todo'
-          }, interactionTraceContext)
-        );
-      }
-    }
-
-    return;
-
-  } else if (interaction.customId.startsWith('ticket_')) {
-
-    const button = client.buttons.get(interaction.customId);
-
-    if (button) {
-      try {
-        await button.execute(interaction, client);
-      } catch (error) {
-        await handleInteractionError(
-          interaction,
-          error,
-          withTraceContext({
-            type: 'button',
-            customId: interaction.customId,
-            handler: 'ticket'
-          }, interactionTraceContext)
-        );
-      }
-    } else {
-      logger.warn(`No ticket button handler found: ${interaction.customId}`);
-    }
-
-    return;
-  }
-    const button = client.buttons.get(interaction.customId);
-
-    if (button) {
-        try {
-            await button.execute(interaction, client);
-        } catch (error) {
-            await handleInteractionError(
-                interaction,
-                error,
-                withTraceContext({
-                    type: 'button',
-                    customId: interaction.customId,
-                    handler: 'ticket'
-                }, interactionTraceContext)
-            );
-        }
-    } else {
-        logger.warn(`No ticket button handler found: ${interaction.customId}`);
-    }
-}
             const parts = interaction.customId.split('_');
             const buttonType = parts.slice(0, 3).join('_');
             const listId = parts[3];
@@ -399,8 +333,30 @@ export default {
                 withTraceContext({ buttonType }, interactionTraceContext)
               );
             }
+
+            return;
+
+          } else if (interaction.customId.startsWith('ticket_')) {
+
+            const button = client.buttons.get(interaction.customId);
+
+            if (button) {
+              try {
+                await button.execute(interaction, client);
+              } catch (error) {
+                await handleInteractionError(interaction, error, withTraceContext({
+                  type: 'button',
+                  customId: interaction.customId,
+                  handler: 'ticket'
+                }, interactionTraceContext));
+              }
+            } else {
+              logger.warn(`No ticket button handler found: ${interaction.customId}`);
+            }
+
             return;
           }
+
 
           const [customId, ...args] = interaction.customId.split(':');
           const button = client.buttons.get(customId);
