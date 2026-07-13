@@ -1,10 +1,10 @@
-import sharedTodoAddHandler, {
+import todoAddHandler, {
   sharedTodoCompleteHandler,
   sharedTodoRemoveHandler,
-} from '../../../handlers/sharedTodo.js';
+} from '../../../handlers/todoButtons.js';
 
 export default [
-  sharedTodoAddHandler,
+  todoAddHandler,
   sharedTodoCompleteHandler,
   sharedTodoRemoveHandler,
 ];
