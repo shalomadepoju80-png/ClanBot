@@ -145,6 +145,30 @@ export async function createTicket(guild, member, categoryId, reason = 'No reaso
             PermissionFlagsBits.ReadMessageHistory,
           ],
         },
+        
+    // Mobile Knife Tryout Hoster
+    {
+      id: "1525109168573251635",
+      allow: [
+        PermissionFlagsBits.ViewChannel,
+        PermissionFlagsBits.SendMessages,
+        PermissionFlagsBits.AttachFiles,
+        PermissionFlagsBits.ReadMessageHistory,
+      ],
+    },
+
+    // PC/Laptop Knife Tryout Hoster
+    {
+      id: "1525108140385767525",
+      allow: [
+        PermissionFlagsBits.ViewChannel,
+        PermissionFlagsBits.SendMessages,
+        PermissionFlagsBits.AttachFiles,
+        PermissionFlagsBits.ReadMessageHistory,
+      ],
+    },
+  ],
+});
         ...(config.ticketStaffRoleId ? [{
           id: config.ticketStaffRoleId,
           allow: [
