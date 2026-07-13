@@ -3,7 +3,6 @@
 import { EmbedBuilder } from 'discord.js';
 import { getColor, botConfig } from '../config/bot.js';
 
-const EMOJI_REGEX = /[\p{Extended_Pictographic}\uFE0F]/gu;
 const EMBED_FOOTER_SYMBOL = Symbol('titanbotFooterText');
 const EMBED_BASE_DESCRIPTION_SYMBOL = Symbol('titanbotBaseDescription');
 
