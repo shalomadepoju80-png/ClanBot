@@ -38,8 +38,8 @@ export default async function loadEvents(client) {
                 client.on(event.name, safeExecute);
                 logger.info(`✅ Registered event: ${event.name}`);
             }
-        } catch (error) {
-            logger.error(`Error loading event ${file}:`, error);
-        }
+     } catch (error) {
+    logger.error(`❌ FAILED loading event ${file}: ${error.stack}`);
+}
     }
 }
