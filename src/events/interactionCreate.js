@@ -306,83 +306,100 @@ export default {
               await interaction.respond([]);
             }
           }
-             } else if (interaction.isButton()) {
+          } else if (interaction.isButton()) {
 
-          if (interaction.customId.startsWith('shared_todo_')) {
+  // Ticket buttons
+  if (interaction.customId.startsWith('ticket_')) {
+    const button = client.buttons.get(interaction.customId);
 
-            const parts = interaction.customId.split('_');
-            const buttonType = parts.slice(0, 3).join('_');
-            const listId = parts[3];
-            const button = client.buttons.get(buttonType);
+    if (button) {
+      try {
+        await button.execute(interaction, client);
+      } catch (error) {
+        await handleInteractionError(
+          interaction,
+          error,
+          withTraceContext({
+            type: 'button',
+            customId: interaction.customId,
+            handler: 'ticket'
+          }, interactionTraceContext)
+        );
+      }
+    } else {
+      logger.warn(`No ticket button handler found: ${interaction.customId}`);
+    }
 
-            if (button) {
-              try {
-                await button.execute(interaction, client, [listId]);
-              } catch (error) {
-                await handleInteractionError(interaction, error, withTraceContext({
-                  type: 'button',
-                  customId: interaction.customId,
-                  handler: 'todo'
-                }, interactionTraceContext));
-              }
-            } else {
-              throw createError(
-                `No button handler found for ${buttonType}`,
-                ErrorTypes.CONFIGURATION,
-                'This button is not available.',
-                withTraceContext({ buttonType }, interactionTraceContext)
-              );
-            }
-
-            return;
-
-          } else if (interaction.customId.startsWith('ticket_')) {
-
-            const button = client.buttons.get(interaction.customId);
-
-            if (button) {
-              try {
-                await button.execute(interaction, client);
-              } catch (error) {
-                await handleInteractionError(interaction, error, withTraceContext({
-                  type: 'button',
-                  customId: interaction.customId,
-                  handler: 'ticket'
-                }, interactionTraceContext));
-              }
-            } else {
-              logger.warn(`No ticket button handler found: ${interaction.customId}`);
-            }
-
-            return;
-          }
+    return;
+  }
 
 
-          const [customId, ...args] = interaction.customId.split(':');
-          const button = client.buttons.get(customId);
+  // Shared todo buttons
+  if (interaction.customId.startsWith('shared_todo_')) {
+    const parts = interaction.customId.split('_');
+    const buttonType = parts.slice(0, 3).join('_');
+    const listId = parts[3];
 
-          if (!button) {
-            if (!interaction.customId.includes(':') || isCollectorManagedComponent(customId)) {
-              return;
-            }
+    const button = client.buttons.get(buttonType);
 
-            throw createError(
-              `No button handler found for ${customId}`,
-              ErrorTypes.CONFIGURATION,
-              'This button is not available.',
-              withTraceContext({ customId }, interactionTraceContext)
-            );
-          }
+    if (button) {
+      try {
+        await button.execute(interaction, client, [listId]);
+      } catch (error) {
+        await handleInteractionError(
+          interaction,
+          error,
+          withTraceContext({
+            type: 'button',
+            customId: interaction.customId,
+            handler: 'todo'
+          }, interactionTraceContext)
+        );
+      }
+    } else {
+      throw createError(
+        `No button handler found for ${buttonType}`,
+        ErrorTypes.CONFIGURATION,
+        'This button is not available.',
+        withTraceContext({ buttonType }, interactionTraceContext)
+      );
+    }
 
-          try {
-            await button.execute(interaction, client, args);
-          } catch (error) {
-            await handleInteractionError(interaction, error, withTraceContext({
-              type: 'button',
-              customId: interaction.customId,
-              handler: 'general'
-            }, interactionTraceContext));
-          }
+    return;
+  }
+
+
+  // Normal buttons
+  const [customId, ...args] = interaction.customId.split(':');
+  const button = client.buttons.get(customId);
+
+  if (!button) {
+    if (!interaction.customId.includes(':') || isCollectorManagedComponent(customId)) {
+      return;
+    }
+
+    throw createError(
+      `No button handler found for ${customId}`,
+      ErrorTypes.CONFIGURATION,
+      'This button is not available.',
+      withTraceContext({ customId }, interactionTraceContext)
+    );
+  }
+
+  try {
+    await button.execute(interaction, client, args);
+  } catch (error) {
+    await handleInteractionError(
+      interaction,
+      error,
+      withTraceContext({
+        type: 'button',
+        customId: interaction.customId,
+        handler: 'general'
+      }, interactionTraceContext)
+    );
+  }
+}
         } else if (interaction.isStringSelectMenu()) {
           const [customId, ...args] = interaction.customId.split(':');
           const selectMenu = client.selectMenus.get(customId);
