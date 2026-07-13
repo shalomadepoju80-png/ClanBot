@@ -310,7 +310,8 @@ export default {
 
   // Ticket buttons
   if (interaction.customId.startsWith('ticket_')) {
-    const button = client.buttons.get(interaction.customId);
+  const buttonId = interaction.customId.split(':')[0];
+  const button = client.buttons.get(buttonId);
 
     if (button) {
       try {
