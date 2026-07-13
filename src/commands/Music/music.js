@@ -119,11 +119,21 @@ export default {
                 await replyMusicSuccess(interaction, embed);
                 break;
             }
-            case 'skip': {
-                const embed = await skipTrack(client, interaction);
-                await replyMusicSuccess(interaction, embed);
-                break;
-            }
+           case 'skip': {
+    const OWNER_ID = "1368313910943547413";
+
+    if (interaction.user.id !== OWNER_ID) {
+        return interaction.reply({
+            content: "❌ Only the bot owner can use `/skip`.",
+            ephemeral: true
+        });
+    }
+
+    const embed = await skipTrack(client, interaction);
+    await replyMusicSuccess(interaction, embed);
+    break;
+}
+        
             case 'stop': {
                 const embed = await stopPlayback(client, interaction);
                 await replyMusicSuccess(interaction, embed);
