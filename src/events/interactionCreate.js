@@ -399,7 +399,7 @@ export default {
       }, interactionTraceContext)
     );
   }
-}
+
         } else if (interaction.isStringSelectMenu()) {
           const [customId, ...args] = interaction.customId.split(':');
           const selectMenu = client.selectMenus.get(customId);
