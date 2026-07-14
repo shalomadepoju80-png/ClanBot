@@ -51,6 +51,6 @@ supportsPrefixExecution: false,
       new ActionRowBuilder().addComponents(proof)
     );
 
-    await interaction.showModal(modal);
+    return await interaction.showModal(modal);
   }
 };
