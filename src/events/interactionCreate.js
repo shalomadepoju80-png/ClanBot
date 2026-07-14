@@ -426,7 +426,76 @@ export default {
               customId: interaction.customId
             }, interactionTraceContext));
           }
-        } else if (interaction.isModalSubmit()) {
+     } else if (interaction.isModalSubmit()) {
+
+  if (interaction.customId === "bug_report_modal") {
+    try {
+
+      const { EmbedBuilder } = await import("discord.js");
+
+      const BUG_CHANNEL = "1526445006246908125";
+
+      const title = interaction.fields.getTextInputValue("bug_title");
+      const description = interaction.fields.getTextInputValue("bug_description");
+      const steps = interaction.fields.getTextInputValue("bug_steps");
+      const proof = interaction.fields.getTextInputValue("bug_proof") || "None";
+
+
+      const embed = new EmbedBuilder()
+        .setTitle("🐛 Bug Report")
+        .setColor("Red")
+        .addFields(
+          {
+            name: "Title",
+            value: title
+          },
+          {
+            name: "Description",
+            value: description
+          },
+          {
+            name: "Steps",
+            value: steps
+          },
+          {
+            name: "Proof",
+            value: proof
+          },
+          {
+            name: "Reporter",
+            value: interaction.user.tag
+          }
+        )
+        .setTimestamp();
+
+
+      const channel = interaction.guild.channels.cache.get(BUG_CHANNEL);
+
+      if (!channel) {
+        return interaction.reply({
+          content: "❌ Bug channel not found.",
+          ephemeral: true
+        });
+      }
+
+
+      await channel.send({
+        embeds: [embed]
+      });
+
+
+      return interaction.reply({
+        content: "✅ Bug report submitted!",
+        ephemeral: true
+      });
+
+    } catch (error) {
+      logger.error("Bug report modal error:", error);
+    }
+  }
+
+
+  if (interaction.customId.startsWith('app_modal_')) {
           if (interaction.customId.startsWith('app_modal_')) {
             try {
               await handleApplicationModal(interaction);
