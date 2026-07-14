@@ -1,5 +1,4 @@
 import { SlashCommandBuilder } from "discord.js";
-import { removeClanPoints, getClanPoints } from "../../services/clanPoints.js";
 import { addClanPoints, removeClanPoints, getClanPoints } from "../../services/clanPoints.js";
 const OWNER_ID = "1368313910943547413";
 
