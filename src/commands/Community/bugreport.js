@@ -8,7 +8,7 @@ import {
 
 export default {
   prefix: false,
-
+supportsPrefixExecution: false,
   data: new SlashCommandBuilder()
     .setName("bugreport")
     .setDescription("Report a bug"),
