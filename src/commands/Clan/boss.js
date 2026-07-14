@@ -142,6 +142,10 @@ export default {
 
 
             if (boss.hp <= 0) {
+                const newPoints = addClanPoints(
+    interaction.guild.id,
+    boss.reward
+);
 
 
                 boss.active = false;
