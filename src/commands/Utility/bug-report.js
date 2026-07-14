@@ -10,7 +10,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName("bug-report")
     .setDescription("Report a bug with ClanBot"),
-
+supportsPrefixExecution: false,
   async execute(interaction) {
 
     if (!interaction.isChatInputCommand()) return;
