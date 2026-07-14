@@ -6,6 +6,29 @@ export default {
     data: new SlashCommandBuilder()
         .setName("clanpoints")
         .setDescription("Manage clan points")
+        .addSubcommand(sub =>
+    sub
+        .setName("add")
+        .setDescription("Add clan points (Owner only)")
+        .addIntegerOption(option =>
+            option
+                .setName("amount")
+                .setDescription("Amount of points to add")
+                .setRequired(true)
+        )
+)
+
+.addSubcommand(sub =>
+    sub
+        .setName("remove")
+        .setDescription("Remove clan points (Owner only)")
+        .addIntegerOption(option =>
+            option
+                .setName("amount")
+                .setDescription("Amount of points to remove")
+                .setRequired(true)
+        )
+)
 
         .addSubcommand(sub =>
             sub
