@@ -258,11 +258,9 @@ async function registerGlobalCommands(client, clientId, commands, totalSubcomman
     }
 
     logger.info(`Registering ${commandsToRegister.length} global commands...`);
-   try {
-    const result = await client.rest.put(
-        `/applications/${clientId}/commands`,
-        { body: commandsToRegister }
-    );
+await client.rest.put(`/applications/${clientId}/commands`, { 
+    body: commandsToRegister 
+});
 
     logger.info(`REGISTERED ${result.length} COMMANDS`);
 } catch (err) {
