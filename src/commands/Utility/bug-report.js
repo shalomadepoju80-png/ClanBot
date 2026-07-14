@@ -13,6 +13,10 @@ export default {
 
   async execute(interaction) {
 
+  if (!interaction.isChatInputCommand()) return;
+
+  const modal = new ModalBuilder()
+
     const modal = new ModalBuilder()
       .setCustomId("bug_report_modal")
       .setTitle("🐛 Bug Report");
