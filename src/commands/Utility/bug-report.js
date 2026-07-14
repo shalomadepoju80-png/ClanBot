@@ -13,7 +13,7 @@ export default {
   
     .setName("bug-report")
     .setDescription("Report a bug with ClanBot"),
-supportsPrefixExecution: false,
+supportsPrefixExecution: true,
   async execute(interaction) {
 
     if (!interaction.isChatInputCommand()) return;
