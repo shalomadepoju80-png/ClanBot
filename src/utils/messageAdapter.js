@@ -172,9 +172,7 @@ export function createMockInteraction(message, commandData, args) {
 }
 
 export function supportsPrefixExecution(command) {
-  if (command.prefixOnly === false || command.slashOnly === true) {
-    return false;
-  }
+  if (command.prefix === false || command.prefixOnly === false || command.slashOnly === true) {
 
   const commandName = command.data?.name?.toLowerCase();
   if (commandName && SLASH_ONLY_COMMANDS.has(commandName)) {
