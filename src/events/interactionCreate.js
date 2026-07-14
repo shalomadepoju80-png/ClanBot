@@ -496,8 +496,8 @@ export default {
 
 
   if (interaction.customId.startsWith('app_modal_')) {
-          if (interaction.customId.startsWith('app_modal_')) {
-            try {
+  try {
+    await handleApplicationModal(interaction);
               await handleApplicationModal(interaction);
             } catch (error) {
               await handleInteractionError(interaction, error, withTraceContext({
