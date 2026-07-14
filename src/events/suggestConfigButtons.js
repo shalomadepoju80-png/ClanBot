@@ -1,15 +1,22 @@
+import {
+  ModalBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+  ActionRowBuilder
+} from "discord.js";
+
 const OWNER_ID = "1368313910943547413";
 
 
 export default {
-  name:"interactionCreate",
+  name: "interactionCreate",
 
-  async execute(interaction){
+  async execute(interaction) {
 
-    if(!interaction.isButton()) return;
+    if (!interaction.isButton()) return;
 
 
-    if(
+    if (
       ![
         "suggest_set_channel",
         "suggest_set_role",
@@ -18,41 +25,69 @@ export default {
     ) return;
 
 
-    if(interaction.user.id !== OWNER_ID){
+    if (interaction.user.id !== OWNER_ID) {
       return interaction.reply({
-        content:"❌ Owner only.",
-        ephemeral:true
+        content: "❌ Owner only.",
+        ephemeral: true
       });
     }
 
 
-    if(interaction.customId === "suggest_set_channel"){
+    if (interaction.customId === "suggest_set_channel") {
 
-      await interaction.reply({
-        content:
-        "📌 Send the channel ID you want suggestions sent to.",
-        ephemeral:true
-      });
+      const modal = new ModalBuilder()
+        .setCustomId("suggest_channel_modal")
+        .setTitle("Set Suggestion Channel");
 
+
+      const input = new TextInputBuilder()
+        .setCustomId("channel_id")
+        .setLabel("Channel ID")
+        .setStyle(TextInputStyle.Short)
+        .setPlaceholder("Example: 123456789012345678")
+        .setRequired(true);
+
+
+      modal.addComponents(
+        new ActionRowBuilder().addComponents(input)
+      );
+
+
+      return interaction.showModal(modal);
     }
 
 
-    if(interaction.customId === "suggest_set_role"){
 
-      await interaction.reply({
-        content:
-        "🛡️ Send the moderator role ID.",
-        ephemeral:true
-      });
+    if (interaction.customId === "suggest_set_role") {
 
+      const modal = new ModalBuilder()
+        .setCustomId("suggest_role_modal")
+        .setTitle("Set Moderator Role");
+
+
+      const input = new TextInputBuilder()
+        .setCustomId("role_id")
+        .setLabel("Role ID")
+        .setStyle(TextInputStyle.Short)
+        .setPlaceholder("Example: 123456789012345678")
+        .setRequired(true);
+
+
+      modal.addComponents(
+        new ActionRowBuilder().addComponents(input)
+      );
+
+
+      return interaction.showModal(modal);
     }
 
 
-    if(interaction.customId === "suggest_view_config"){
 
-      await interaction.reply({
+    if (interaction.customId === "suggest_view_config") {
+
+      return interaction.reply({
         content:
-        "📋 Current config:\nChannel: Not saved yet\nRole: Not saved yet",
+        "📋 Config is saved in suggestionConfig.json",
         ephemeral:true
       });
 
