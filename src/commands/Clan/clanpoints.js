@@ -38,7 +38,27 @@ export default {
                     ephemeral: true
                 });
             }
+if (sub === "add") {
 
+    if (interaction.user.id !== OWNER_ID) {
+        return interaction.reply({
+            content: "❌ Only the owner can add clan points!",
+            ephemeral: true
+        });
+    }
+
+    const amount = interaction.options.getInteger("amount");
+
+    const newPoints = addClanPoints(
+        interaction.guild.id,
+        amount
+    );
+
+    return interaction.reply(
+        `🏆 Added **${amount} Clan Points**!\n` +
+        `💎 New Clan Points: **${newPoints}**`
+    );
+}
             const amount = interaction.options.getInteger("amount");
 
             const newPoints = removeClanPoints(
