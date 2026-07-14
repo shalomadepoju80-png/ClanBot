@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import { removeClanPoints, getClanPoints } from "../../services/clanPoints.js";
-
+import { addClanPoints, removeClanPoints, getClanPoints } from "../../services/clanPoints.js";
 const OWNER_ID = "1368313910943547413";
 
 export default {
@@ -65,3 +65,14 @@ export default {
         }
     }
 };
+.addSubcommand(sub =>
+    sub
+        .setName("add")
+        .setDescription("Add clan points (Owner only)")
+        .addIntegerOption(option =>
+            option
+                .setName("amount")
+                .setDescription("Amount of points to add")
+                .setRequired(true)
+        )
+)
