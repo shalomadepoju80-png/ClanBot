@@ -1,34 +1,24 @@
 import { SlashCommandBuilder } from "discord.js";
 import { addClanPoints, removeClanPoints, getClanPoints } from "../../services/clanPoints.js";
+
 const OWNER_ID = "1368313910943547413";
 
 export default {
     data: new SlashCommandBuilder()
         .setName("clanpoints")
         .setDescription("Manage clan points")
-        .addSubcommand(sub =>
-    sub
-        .setName("add")
-        .setDescription("Add clan points (Owner only)")
-        .addIntegerOption(option =>
-            option
-                .setName("amount")
-                .setDescription("Amount of points to add")
-                .setRequired(true)
-        )
-)
 
-.addSubcommand(sub =>
-    sub
-        .setName("remove")
-        .setDescription("Remove clan points (Owner only)")
-        .addIntegerOption(option =>
-            option
-                .setName("amount")
-                .setDescription("Amount of points to remove")
-                .setRequired(true)
+        .addSubcommand(sub =>
+            sub
+                .setName("add")
+                .setDescription("Add clan points (Owner only)")
+                .addIntegerOption(option =>
+                    option
+                        .setName("amount")
+                        .setDescription("Amount of points to add")
+                        .setRequired(true)
+                )
         )
-)
 
         .addSubcommand(sub =>
             sub
@@ -52,6 +42,32 @@ export default {
 
         const sub = interaction.options.getSubcommand();
 
+
+        // ADD POINTS
+        if (sub === "add") {
+
+            if (interaction.user.id !== OWNER_ID) {
+                return interaction.reply({
+                    content: "❌ Only the owner can add clan points!",
+                    ephemeral: true
+                });
+            }
+
+            const amount = interaction.options.getInteger("amount");
+
+            const newPoints = addClanPoints(
+                interaction.guild.id,
+                amount
+            );
+
+            return interaction.reply(
+                `🏆 Added **${amount} Clan Points!**\n` +
+                `💎 New Clan Points: **${newPoints}**`
+            );
+        }
+
+
+        // REMOVE POINTS
         if (sub === "remove") {
 
             if (interaction.user.id !== OWNER_ID) {
@@ -60,27 +76,7 @@ export default {
                     ephemeral: true
                 });
             }
-if (sub === "add") {
 
-    if (interaction.user.id !== OWNER_ID) {
-        return interaction.reply({
-            content: "❌ Only the owner can add clan points!",
-            ephemeral: true
-        });
-    }
-
-    const amount = interaction.options.getInteger("amount");
-
-    const newPoints = addClanPoints(
-        interaction.guild.id,
-        amount
-    );
-
-    return interaction.reply(
-        `🏆 Added **${amount} Clan Points**!\n` +
-        `💎 New Clan Points: **${newPoints}**`
-    );
-}
             const amount = interaction.options.getInteger("amount");
 
             const newPoints = removeClanPoints(
@@ -89,12 +85,13 @@ if (sub === "add") {
             );
 
             return interaction.reply(
-                `🗑️ Removed **${amount} Clan Points**!\n` +
+                `🗑️ Removed **${amount} Clan Points!**\n` +
                 `💎 New Clan Points: **${newPoints}**`
             );
         }
 
 
+        // CHECK POINTS
         if (sub === "check") {
 
             const points = getClanPoints(
@@ -102,19 +99,8 @@ if (sub === "add") {
             );
 
             return interaction.reply(
-                `🏆 Clan Points: **${points}**`
+                `🏆 Clan Points: **${points} CP**`
             );
         }
     }
 };
-.addSubcommand(sub =>
-    sub
-        .setName("add")
-        .setDescription("Add clan points (Owner only)")
-        .addIntegerOption(option =>
-            option
-                .setName("amount")
-                .setDescription("Amount of points to add")
-                .setRequired(true)
-        )
-)
