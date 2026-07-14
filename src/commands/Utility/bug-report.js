@@ -63,7 +63,7 @@ export default {
 };
 import { EmbedBuilder } from "discord.js";
 
-const BUG_CHANNEL = "PUT_BUG_CHANNEL_ID_HERE";
+const BUG_CHANNEL = "1526445006246908125";
 
 export default {
   name: "interactionCreate",
