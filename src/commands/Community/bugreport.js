@@ -7,7 +7,8 @@ import {
 } from "discord.js";
 
 export default {
-  prefix: false,
+  prefixOnly: false,
+  slashOnly: true,
 supportsPrefixExecution: false,
   data: new SlashCommandBuilder()
     .setName("bugreport")
