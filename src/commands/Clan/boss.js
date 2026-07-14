@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import fs from "fs";
-
+import { addClanPoints } from "../../services/clanPoints.js";
 const OWNER_ID = "1368313910943547413";
 
 const bossFile = "./src/data/boss.json";
