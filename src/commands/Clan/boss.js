@@ -141,26 +141,23 @@ export default {
 
 
 
-            if (boss.hp <= 0) {
-                const newPoints = addClanPoints(
-    interaction.guild.id,
-    boss.reward
-);
+if (boss.hp <= 0) {
 
+    boss.active = false;
 
-                boss.active = false;
+    const newPoints = addClanPoints(
+        interaction.guild.id,
+        boss.reward
+    );
 
+    saveBoss(boss);
 
-                saveBoss(boss);
-
-
-                return interaction.reply(
-                    `🎉 **THE CLAN DEFEATED ${boss.name}!**\n\n` +
-                    `🏆 Everyone earned **${boss.reward} Clan Points!**`
-                );
-            }
-
-
+    return interaction.reply(
+        `🎉 **THE CLAN DEFEATED ${boss.name}!**\n\n` +
+        `🏆 Everyone earned **${boss.reward} Clan Points!**\n` +
+        `💎 Total Clan Points: **${newPoints}**`
+    );
+}
             saveBoss(boss);
 
 
