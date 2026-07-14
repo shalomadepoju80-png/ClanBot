@@ -6,8 +6,13 @@ import {
   ButtonStyle
 } from "discord.js";
 
-const SUGGESTION_CHANNEL = "1526425747718144183";
+import fs from "fs";
 
+const config = JSON.parse(
+  fs.readFileSync("./src/data/suggestionConfig.json")
+);
+
+const SUGGESTION_CHANNEL = config.channel;
 export default {
   data: new SlashCommandBuilder()
     .setName("suggest")
