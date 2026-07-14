@@ -8,7 +8,7 @@ import {
 
 export default {
   data: new SlashCommandBuilder()
-    .setName("bug-report")
+    .setName("bugreport")
     .setDescription("Report a bug with ClanBot"),
 
   async execute(interaction) {
