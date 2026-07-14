@@ -7,7 +7,10 @@ import {
 } from "discord.js";
 
 export default {
+  prefix: false,
+
   data: new SlashCommandBuilder()
+  
     .setName("bug-report")
     .setDescription("Report a bug with ClanBot"),
 supportsPrefixExecution: false,
