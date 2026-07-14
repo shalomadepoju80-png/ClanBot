@@ -61,3 +61,73 @@ export default {
     await interaction.showModal(modal);
   }
 };
+import { EmbedBuilder } from "discord.js";
+
+const BUG_CHANNEL = "PUT_BUG_CHANNEL_ID_HERE";
+
+export default {
+  name: "interactionCreate",
+
+  async execute(interaction) {
+
+    if (!interaction.isModalSubmit()) return;
+
+    if (interaction.customId !== "bug_report_modal") return;
+
+
+    const title = interaction.fields.getTextInputValue("bug_title");
+    const description = interaction.fields.getTextInputValue("bug_description");
+    const steps = interaction.fields.getTextInputValue("bug_steps");
+    const proof = interaction.fields.getTextInputValue("bug_proof") || "None";
+
+
+    const embed = new EmbedBuilder()
+      .setTitle("🐛 Bug Report")
+      .setColor("Red")
+      .addFields(
+        {
+          name: "Title",
+          value: title
+        },
+        {
+          name: "Description",
+          value: description
+        },
+        {
+          name: "Steps",
+          value: steps
+        },
+        {
+          name: "Proof",
+          value: proof
+        },
+        {
+          name: "Reporter",
+          value: `${interaction.user.tag}`
+        }
+      )
+      .setTimestamp();
+
+
+    const channel = interaction.guild.channels.cache.get(BUG_CHANNEL);
+
+    if (!channel) {
+      return interaction.reply({
+        content: "❌ Bug channel not found.",
+        ephemeral: true
+      });
+    }
+
+
+    await channel.send({
+      embeds: [embed]
+    });
+
+
+    await interaction.reply({
+      content: "✅ Bug report submitted!",
+      ephemeral: true
+    });
+
+  }
+};
