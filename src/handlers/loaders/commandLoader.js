@@ -257,17 +257,22 @@ async function registerGlobalCommands(client, clientId, commands, totalSubcomman
         await client.rest.put(`/applications/${clientId}/commands`, { body: [] });
     }
 
-    logger.info(`Registering ${commandsToRegister.length} global commands...`);
-await client.rest.put(`/applications/${clientId}/commands`, { 
-    body: commandsToRegister 
-});
+logger.info(`Registering ${commandsToRegister.length} global commands...`);
 
-    logger.info(`REGISTERED ${result.length} COMMANDS`);
+try {
+    await client.rest.put(
+        `/applications/${clientId}/commands`,
+        {
+            body: commandsToRegister
+        }
+    );
+
+    logger.info(`Successfully registered ${commandsToRegister.length} global commands`);
+    logger.info("Global commands may take up to an hour to appear in all servers on first deploy");
+
 } catch (err) {
-    console.error("REGISTER ERROR:", err);
-    throw err;
+    logger.error("Failed to register global commands:", err);
 }
-
 export async function registerCommands(client, options = {}) {
     const { clientId = null } = options;
 
