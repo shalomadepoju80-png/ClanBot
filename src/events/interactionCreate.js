@@ -298,15 +298,16 @@ export default {
               const validChoices = choices.filter(c => c !== null);
               await interaction.respond(validChoices);
             } catch (error) {
-              logger.error('Error handling reactroles autocomplete:', {
-                error: error.message,
-                guildId: interaction.guildId,
-                commandName: interaction.commandName
-              });
-              await interaction.respond([]);
-            }
-          
-                    } else if (interaction.isButton()) {
+  logger.error('Error handling reactroles autocomplete:', {
+    error: error.message,
+    guildId: interaction.guildId,
+    commandName: interaction.commandName
+  });
+  await interaction.respond([]);
+}
+
+        } // closes autocomplete
+        else if (interaction.isButton()) {
 
   // Ticket buttons
   if (interaction.customId.startsWith('ticket_')) {
