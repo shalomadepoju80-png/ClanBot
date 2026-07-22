@@ -273,6 +273,9 @@ try {
 } catch (err) {
     logger.error("Failed to register global commands:", err);
 }
+
+}
+
 export async function registerCommands(client, options = {}) {
     const { clientId = null } = options;
 
