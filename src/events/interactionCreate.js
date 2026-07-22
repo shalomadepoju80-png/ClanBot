@@ -567,12 +567,13 @@ export default {
             customId: interaction.customId,
             source: 'interactionCreate.unhandled'
           }, interactionTraceContext));
-        } catch (replyError) {
+                } catch (replyError) {
           logger.error('Failed to send fallback error response:', {
             event: 'interaction.error_response_failed',
             errorCode: ErrorCodes.INTERACTION_RESPONSE_FAILED,
             error: replyError,
             traceId: interactionTraceContext.traceId
+          });
         }
       }
     });
