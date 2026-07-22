@@ -306,7 +306,7 @@ export default {
               await interaction.respond([]);
             }
           }
-          } else if (interaction.isButton()) {
+                    } else if (interaction.isButton()) {
 
   // Ticket buttons
   if (interaction.customId.startsWith('ticket_')) {
