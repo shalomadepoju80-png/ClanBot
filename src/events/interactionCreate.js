@@ -433,7 +433,7 @@ export default {
 
       const { EmbedBuilder } = await import("discord.js");
 
-      const BUG_CHANNEL = "1526445006246908125";
+      const BUG_CHANNEL = "1529530373850271935";
 
       const title = interaction.fields.getTextInputValue("bug_title");
       const description = interaction.fields.getTextInputValue("bug_description");
