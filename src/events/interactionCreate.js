@@ -305,7 +305,7 @@ export default {
               });
               await interaction.respond([]);
             }
-          }
+          
                     } else if (interaction.isButton()) {
 
   // Ticket buttons
