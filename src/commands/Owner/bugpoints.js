@@ -4,7 +4,7 @@ import {
 } from "discord.js";
 import fs from "fs";
 
-const OWNER_ID = "1368313910943547413";
+const OWNER_ID = "1300196895167217777";
 const DATA_FILE = "./src/data/bugpoints.json";
 
 export default {
