@@ -573,7 +573,6 @@ export default {
             errorCode: ErrorCodes.INTERACTION_RESPONSE_FAILED,
             error: replyError,
             traceId: interactionTraceContext.traceId
-          });
         }
       }
     });
