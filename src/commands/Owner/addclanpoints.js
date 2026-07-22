@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import { addClanPoints } from "../../services/clanPoints.js";
 
-const OWNER_ID = "1368313910943547413";
+const OWNER_ID = "1300196895167217777";
 
 export default {
     data: new SlashCommandBuilder()
