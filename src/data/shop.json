@@ -1,0 +1,18 @@
+{
+  "iq": {
+    "cost": 1,
+    "description": "Check someone's IQ"
+  },
+  "skip": {
+    "cost": 3,
+    "description": "Skip something"
+  },
+  "eat": {
+    "cost": 4,
+    "description": "Eat someone"
+  },
+  "cat-eat": {
+    "cost": 5,
+    "description": "Cat says a funny message"
+  }
+}
