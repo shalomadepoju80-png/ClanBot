@@ -1,4 +1,5 @@
-import {
+
+    import {
   SlashCommandBuilder,
   EmbedBuilder
 } from "discord.js";
@@ -9,90 +10,67 @@ const DATA_FILE = "./src/data/bugpoints.json";
 
 export default {
   data: new SlashCommandBuilder()
-    .setName("bugpoints")
-    .setDescription("Manage Bug Points")
-
-    .addSubcommand(sub =>
-      sub
-        .setName("give")
-        .setDescription("Give Bug Points to someone")
-        .addUserOption(option =>
-          option
-            .setName("user")
-            .setDescription("User to give points to")
-            .setRequired(true)
-        )
-        .addIntegerOption(option =>
-          option
-            .setName("amount")
-            .setDescription("Amount of Bug Points")
-            .setRequired(true)
-        )
+    .setName("bugpoints-give")
+    .setDescription("Give Bug Points to a user")
+    .addUserOption(option =>
+      option
+        .setName("user")
+        .setDescription("User to give points")
+        .setRequired(true)
+    )
+    .addIntegerOption(option =>
+      option
+        .setName("amount")
+        .setDescription("Amount of Bug Points")
+        .setRequired(true)
+        .setMinValue(1)
     ),
-
 
   async execute(interaction) {
 
     if (interaction.user.id !== OWNER_ID) {
       return interaction.reply({
-        content: "❌ Only the owner can use this command.",
+        content: "❌ Owner only.",
         ephemeral: true
       });
     }
 
-
-    const user =
-      interaction.options.getUser("user");
-
-    const amount =
-      interaction.options.getInteger("amount");
-
+    const user = interaction.options.getUser("user");
+    const amount = interaction.options.getInteger("amount");
 
     let data = {};
 
     if (fs.existsSync(DATA_FILE)) {
-      data = JSON.parse(
-        fs.readFileSync(DATA_FILE)
-      );
+      data = JSON.parse(fs.readFileSync(DATA_FILE));
     }
 
-
-    data[user.id] =
-      (data[user.id] || 0) + amount;
-
+    data[user.id] = (data[user.id] || 0) + amount;
 
     fs.writeFileSync(
       DATA_FILE,
       JSON.stringify(data, null, 2)
     );
 
-
     const embed = new EmbedBuilder()
-      .setTitle("🐛 Bug Points Awarded")
+      .setTitle("🐛 Bug Points Added")
       .setColor("Green")
       .addFields(
         {
-          name:"👤 User",
-          value:`<@${user.id}>`
+          name: "👤 User",
+          value: `<@${user.id}>`
         },
         {
-          name:"➕ Added",
-          value:`${amount} Bug Points`
+          name: "➕ Added",
+          value: `${amount} BP`
         },
         {
-          name:"💰 New Balance",
-          value:`${data[user.id]} Bug Points`
-        },
-        {
-          name:"Given By",
-          value:"👑 Owner"
+          name: "💰 New Balance",
+          value: `${data[user.id]} BP`
         }
       );
 
-
-    await interaction.reply({
-      embeds:[embed]
+    interaction.reply({
+      embeds: [embed]
     });
-
   }
 };
