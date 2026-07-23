@@ -57,8 +57,22 @@ export default {
       JSON.stringify(data, null, 2)
     );
 
-    await interaction.reply(
-      `✅ You bought **${itemName}** for ${cost} 🐛 Bug Points!`
-    );
-  }
-};
+    let message = `✅ You bought **${itemName}** for ${cost} 🐛 Bug Points!`;
+
+if (itemName === "iq") {
+  message = `🧠 Your IQ is **${Math.floor(Math.random() * 100) + 1}**!`;
+}
+
+if (itemName === "skip") {
+  message = `⏩ You used your Skip token!`;
+}
+
+if (itemName === "eat") {
+  message = `🍴 You ate someone! Yum!`;
+}
+
+if (itemName === "cat-eat") {
+  message = `🐱 Mmm this person tasted yummy!`;
+}
+
+await interaction.reply(message);
