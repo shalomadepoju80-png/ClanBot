@@ -13,6 +13,7 @@ export default {
 
   async execute(interaction) {
 
+
     // ==========================
     // BUG REPORT MODAL
     // ==========================
@@ -107,6 +108,7 @@ export default {
     }
 
 
+
     // ==========================
     // APPROVE / DENY BUTTONS
     // ==========================
@@ -118,7 +120,6 @@ export default {
       ) return;
 
 
-      // OWNER ONLY
       if (interaction.user.id !== OWNER_ID) {
         return interaction.reply({
           content: "❌ Only the owner can approve or deny bug reports.",
@@ -131,10 +132,34 @@ export default {
         EmbedBuilder.from(interaction.message.embeds[0]);
 
 
+      const reporterField =
+        embed.data.fields.find(
+          field => field.name === "👤 Reported By"
+        );
+
+
+      let reporter;
+
+
+      if (reporterField) {
+
+        const userId = reporterField.value
+          .replace("<@", "")
+          .replace(">", "");
+
+        try {
+          reporter =
+            await interaction.client.users.fetch(userId);
+        } catch {}
+      }
+
+
+
       const statusIndex =
         embed.data.fields.findIndex(
           field => field.name === "📌 Status"
         );
+
 
 
       if (interaction.customId === "bug_approve") {
@@ -148,7 +173,17 @@ export default {
           };
         }
 
+
+        if (reporter) {
+          try {
+            await reporter.send(
+              "🐛 Your bug report has been **approved**! ✅\n\nThanks for helping improve ClanBot!"
+            );
+          } catch {}
+        }
+
       }
+
 
 
       if (interaction.customId === "bug_deny") {
@@ -162,7 +197,17 @@ export default {
           };
         }
 
+
+        if (reporter) {
+          try {
+            await reporter.send(
+              "🐛 Your bug report has been **denied**. ❌\n\nThanks for taking the time to report it."
+            );
+          } catch {}
+        }
+
       }
+
 
 
       await interaction.message.edit({
@@ -172,9 +217,10 @@ export default {
 
 
       return interaction.reply({
-        content: "✅ Bug report updated.",
+        content: "✅ Bug report updated and user notified.",
         ephemeral: true
       });
+
     }
 
   }
