@@ -39,7 +39,8 @@ export default {
   JSON.stringify(data, null, 2),
   "utf8"
 );
-
+console.log("FILE LOCATION:", DATA_FILE);
+console.log("NEW DATA:", data);
 console.log("SAVED:", data);
 
     await interaction.reply(
