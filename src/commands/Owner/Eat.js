@@ -35,9 +35,12 @@ export default {
     data[interaction.user.id] -= 4;
 
     fs.writeFileSync(
-      DATA_FILE,
-      JSON.stringify(data, null, 2)
-    );
+  DATA_FILE,
+  JSON.stringify(data, null, 2),
+  "utf8"
+);
+
+console.log("SAVED:", data);
 
     await interaction.reply(
       `🍽️ ${interaction.user} ate ${user}! (-4 🐛 Bug Points)`
