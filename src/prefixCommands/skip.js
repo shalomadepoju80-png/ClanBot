@@ -1,13 +1,27 @@
+import fs from "fs";
+
+const DATA_FILE = "./src/data/bugpoints.json";
+
 export default {
   name: "skip",
 
-  async execute(message, args) {
-    const user = message.mentions.users.first();
+  async execute(message) {
+    let data = {};
 
-    if (!user) {
-      return message.reply("Mention someone to skip.");
+    if (fs.existsSync(DATA_FILE)) {
+      data = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
     }
 
-    await message.reply(`⏭️ ${user} was skipped!`);
+    const points = data[message.author.id] || 0;
+
+    if (points < 3) {
+      return message.reply("❌ You need 3 Bug Points to use this!");
+    }
+
+    data[message.author.id] = points - 3;
+
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+
+    message.reply(`⏭️ ${message.author} skipped! (-3 🐛 Bug Points)`);
   }
 };
