@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import fs from "fs";
 
-const DATA_FILE = "./src/data/bugpoints.json";
+const DATA_FILE = new URL("../../data/bugpoints.json", import.meta.url);
 
 export default {
   data: new SlashCommandBuilder()
