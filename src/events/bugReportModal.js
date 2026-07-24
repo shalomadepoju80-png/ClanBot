@@ -3,8 +3,7 @@ import {
 } from "discord.js";
 
 
-const BUG_CHANNEL = "1529530373850271935";
-
+const BUG_CHANNEL = "1530293905755602955"
 
 export default {
   name: "interactionCreate",
